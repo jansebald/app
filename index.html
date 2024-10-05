@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karteikarten App</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div id="app">
+    <h1>Karteikarten App</h1>
+    <div id="start-page" class="page active">
+      <h2>Willkommen zur Karteikarten App</h2>
+      <label for="category">Bitte Kategorie auswählen:</label>
+      <select id="category" onchange="filterFlashcards()">
+        <option value="Mathe">Mathe</option>
+        <option value="Deutsch">Deutsch</option>
+        <option value="Englisch">Englisch</option>
+        <!-- Weitere Kategorien hier hinzufügen -->
+      </select>
+      <button onclick="showPage('flashcard-page')">Start</button>
+      <button onclick="showPage('settings-page')">Einstellungen</button>
+    </div>
+    <div id="flashcard-page" class="page">
+      <h2>Karteikarten</h2>
+      <div id="flashcard-container">
+        <div id="question"></div>
+        <div id="answer" style="display: none;"></div>
+      </div>
+      <button id="toggle-answer">Antwort anzeigen</button>
+      <button id="correct-answer" style="display: none;">Richtig</button>
+      <button id="incorrect-answer" style="display: none;">Falsch</button>
+      <button onclick="showPage('start-page')">Zurück</button>
+    </div>
+    <div id="result-page" class="page">
+      <h2>Hier ist dein Ergebnis</h2>
+      <p id="result"></p>
+      <button onclick="showPage('start-page')">Zurück zum Startbildschirm</button>
+    </div>
+    <div id="incorrect-cards-page" class="page">
+      <h2>Falsch beantwortete Karten</h2>
+      <div id="incorrect-cards-list"></div>
+      <button onclick="showPage('start-page')">Zurück zum Startbildschirm</button>
+    </div>
+    <div id="settings-page" class="page">
+      <h2>Einstellungen</h2>
+      <button onclick="showPage('start-page')">Zurück</button>
+      <button onclick="showPage('add-category-page')">Kategorie hinzufügen</button>
+      <button onclick="showPage('remove-category-page')">Kategorie entfernen</button>
+      <button onclick="showPage('add-flashcard-page')">Karteikarte hinzufügen</button>
+      <button onclick="showPage('remove-flashcard-page')">Karteikarte löschen</button>
+    </div>
+    <div id="add-category-page" class="page">
+      <h2>Kategorie hinzufügen</h2>
+      <label for="new-category-name">Kategorie Name:</label>
+      <input type="text" id="new-category-name">
+      <button onclick="addCategory()">Speichern</button>
+      <button onclick="showPage('settings-page')">Zurück</button>
+    </div>
+    <div id="remove-category-page" class="page">
+      <h2>Kategorie entfernen</h2>
+      <label for="remove-category">Kategorie auswählen:</label>
+      <select id="remove-category">
+        <!-- Kategorien werden hier dynamisch hinzugefügt -->
+      </select>
+      <button onclick="removeCategory()">Entfernen</button>
+      <button onclick="showPage('settings-page')">Zurück</button>
+    </div>
+    <div id="add-flashcard-page" class="page">
+      <h2>Karteikarte hinzufügen</h2>
+      <label for="new-question">Frage:</label>
+      <input type="text" id="new-question">
+      <label for="new-answer">Antwort:</label>
+      <input type="text" id="new-answer">
+      <label for="new-category">Kategorie:</label>
+      <select id="new-category">
+        <!-- Kategorien werden hier dynamisch hinzugefügt -->
+      </select>
+      <button onclick="addFlashcard()">Speichern</button>
+      <button onclick="showPage('settings-page')">Zurück</button>
+    </div>
+    <div id="remove-flashcard-page" class="page">
+      <h2>Karteikarte löschen</h2>
+      <label for="remove-flashcard">Karteikarte auswählen:</label>
+      <select id="remove-flashcard">
+        <!-- Karteikarten werden hier dynamisch hinzugefügt -->
+      </select>
+      <button onclick="removeFlashcard()">Löschen</button>
+      <button onclick="showPage('settings-page')">Zurück</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
