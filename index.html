@@ -8,24 +8,11 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<!-- Authentifizierungsseite -->
-  <div id="register-page" class="page">
-    <h2>Registrieren</h2>
-    <input type="email" id="register-email" placeholder="Email">
-    <input type="password" id="register-password" placeholder="Passwort">
-    <button onclick="register()">Registrieren</button>
-  
-    <h2>Anmelden</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Passwort">
-    <button onclick="login()">Anmelden</button>
-  </div>
   <!-- Seite für Karteikarten -->
   <div id="app">
     <h1>Karteikarten App</h1>
     <div id="start-page" class="page active">
       <h2>Willkommen zur Karteikarten App</h2>
-      <button onclick="showPage('register-page')">Anmelden</button>
     </div>
       <label for="category">Bitte Kategorie auswählen:</label>
       <select id="category" onchange="filterFlashcards()">
@@ -113,15 +100,6 @@
     </div>
   </div>
   <script src="script.js"></script>
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   </script>
 </body>
 </html>
