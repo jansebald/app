@@ -108,32 +108,47 @@ function filterFlashcards() {
   const selectedCategory = document.getElementById('category').value;
   const filteredFlashcards = flashcards.filter(card => card.category === selectedCategory);
   currentIndex = 0;
+  resetFlashcardDisplay(); // Anzeige zurücksetzen
   updateFlashcardDisplay(filteredFlashcards);
 }
 
 function updateFlashcardDisplay(filteredFlashcards = flashcards) {
   if (filteredFlashcards.length > 0) {
     document.getElementById('question').innerText = filteredFlashcards[currentIndex].question;
+    document.getElementById('answer').innerText = ''; // Antwort zurücksetzen
     document.getElementById('answer').style.display = 'none';
     document.getElementById('toggle-answer').innerText = 'Antwort anzeigen';
     document.getElementById('correct-answer').style.display = 'none';
     document.getElementById('incorrect-answer').style.display = 'none';
   } else {
     document.getElementById('question').innerText = 'Keine Karteikarten vorhanden';
+    document.getElementById('answer').innerText = ''; // Antwort zurücksetzen
     document.getElementById('answer').style.display = 'none';
     document.getElementById('toggle-answer').innerText = 'Antwort anzeigen';
   }
 }
 
+function resetFlashcardDisplay() {
+  showAnswer = false;
+  document.getElementById('answer').style.display = 'none';
+  document.getElementById('answer').innerText = ''; // Antwort zurücksetzen
+  document.getElementById('toggle-answer').innerText = 'Antwort anzeigen';
+  document.getElementById('correct-answer').style.display = 'none';
+  document.getElementById('incorrect-answer').style.display = 'none';
+}
+
 document.getElementById('toggle-answer').addEventListener('click', () => {
   if (flashcards.length > 0) {
     showAnswer = !showAnswer;
-    document.getElementById('answer').style.display = showAnswer ? 'block' : 'none';
+    const selectedCategory = document.getElementById('category').value;
+    const filteredFlashcards = flashcards.filter(card => card.category === selectedCategory);
     if (showAnswer) {
-      document.getElementById('answer').innerText = flashcards[currentIndex].answer;
+      document.getElementById('answer').innerText = filteredFlashcards[currentIndex].answer;
+      document.getElementById('answer').style.display = 'block';
       document.getElementById('correct-answer').style.display = 'inline-block';
       document.getElementById('incorrect-answer').style.display = 'inline-block';
     } else {
+      document.getElementById('answer').style.display = 'none';
       document.getElementById('correct-answer').style.display = 'none';
       document.getElementById('incorrect-answer').style.display = 'none';
     }
@@ -188,6 +203,40 @@ function showIncorrectCards() {
   });
   showPage('incorrect-cards-page');
 }
+
+function loadFlashcardsForEdit() {
+  const editFlashcardSelect = document.getElementById('edit-flashcard-select');
+  editFlashcardSelect.innerHTML = '';
+  flashcards.forEach((card, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = `${card.category}: ${card.question}`;
+    editFlashcardSelect.appendChild(option);
+  });
+}
+
+function editFlashcard() {
+  const selectedIndex = document.getElementById('edit-flashcard-select').value;
+  const newQuestion = document.getElementById('edit-question').value;
+  const newAnswer = document.getElementById('edit-answer').value;
+
+  if (selectedIndex !== '' && newQuestion && newAnswer) {
+    flashcards[selectedIndex].question = newQuestion;
+    flashcards[selectedIndex].answer = newAnswer;
+    saveFlashcards();
+    loadFlashcards();
+    loadFlashcardsForEdit();
+    showPage('settings-page');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadCategories();
+  loadFlashcards();
+  loadFlashcardsForEdit();
+  updateFlashcardDisplay();
+  showPage('start-page');
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   loadCategories();

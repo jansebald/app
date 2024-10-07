@@ -44,6 +44,13 @@
       <button onclick="showPage('start-page')">Zurück zum Startbildschirm</button>
     </div>
     <div id="settings-page" class="page">
+      <div id="edit-flashcard-section">
+        <h3>Karteikarte bearbeiten</h3>
+        <select id="edit-flashcard-select"></select>
+        <input type="text" id="edit-question" placeholder="Neue Frage">
+        <input type="text" id="edit-answer" placeholder="Neue Antwort">
+        <button onclick="editFlashcard()">Speichern</button>
+      </div>      
       <h2>Einstellungen</h2>
       <button onclick="showPage('start-page')">Zurück</button>
       <button onclick="showPage('add-category-page')">Kategorie hinzufügen</button>
