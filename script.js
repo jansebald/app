@@ -260,3 +260,102 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+function register() {
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Registrierung erfolgreich
+      const user = userCredential.user;
+      console.log('Registrierung erfolgreich:', user);
+      saveUserData(user.uid);
+    })
+    .catch((error) => {
+      console.error('Fehler bei der Registrierung:', error);
+    });
+}
+
+function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Anmeldung erfolgreich
+      const user = userCredential.user;
+      console.log('Anmeldung erfolgreich:', user);
+      loadUserData(user.uid);
+    })
+    .catch((error) => {
+      console.error('Fehler bei der Anmeldung:', error);
+    });
+}
+
+function saveUserData(userId) {
+  db.collection('users').doc(userId).set({
+    flashcards: flashcards,
+    categories: categories
+  })
+  .then(() => {
+    console.log('Daten erfolgreich gespeichert');
+  })
+  .catch((error) => {
+    console.error('Fehler beim Speichern der Daten:', error);
+  });
+}
+
+function loadUserData(userId) {
+  db.collection('users').doc(userId).get()
+    .then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        flashcards = data.flashcards;
+        categories = data.categories;
+        saveFlashcards();
+        saveCategories();
+        loadCategories();
+        loadFlashcards();
+        updateFlashcardDisplay();
+        console.log('Daten erfolgreich geladen');
+      } else {
+        console.log('Keine Daten gefunden');
+      }
+    })
+    .catch((error) => {
+      console.error('Fehler beim Laden der Daten:', error);
+    });
+}
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log('Benutzer eingeloggt:', user);
+    loadUserData(user.uid);
+  } else {
+    console.log('Kein Benutzer eingeloggt');
+    showPage('auth-page');
+  }
+});
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+  document.getElementById(pageId).classList.add('active');
+
+  if (pageId === 'flashcard-page') {
+    resetFlashcardDisplay();
+    filterFlashcards();
+  }
+}
+const firebaseConfig = {
+  apiKey: "AIzaSyA_pvIEn5j29-820fgGSmabM7-9QwmK6Ww",
+  authDomain: "karteikarten-app-f27c2.firebaseapp.com",
+  projectId: "karteikarten-app-f27c2",
+  storageBucket: "karteikarten-app-f27c2.appspot.com",
+  messagingSenderId: "704027910868",
+  appId: "1:704027910868:web:7e7a5eec850490784d1141",
+  measurementId: "G-FFXQBW306Y"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
