@@ -8,10 +8,25 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<!-- Authentifizierungsseite -->
+  <div id="register-page" class="page">
+    <h2>Registrieren</h2>
+    <input type="email" id="register-email" placeholder="Email">
+    <input type="password" id="register-password" placeholder="Passwort">
+    <button onclick="register()">Registrieren</button>
+  
+    <h2>Anmelden</h2>
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Passwort">
+    <button onclick="login()">Anmelden</button>
+  </div>
+  <!-- Seite für Karteikarten -->
   <div id="app">
     <h1>Karteikarten App</h1>
     <div id="start-page" class="page active">
       <h2>Willkommen zur Karteikarten App</h2>
+      <button onclick="showPage('register-page')">Anmelden</button>
+    </div>
       <label for="category">Bitte Kategorie auswählen:</label>
       <select id="category" onchange="filterFlashcards()">
         <option value="Mathe">Mathe</option>
@@ -21,17 +36,6 @@
       </select>
       <button onclick="showPage('flashcard-page')">Start</button>
       <button onclick="showPage('settings-page')">Einstellungen</button>
-    </div>
-    <div id="auth-page" class="page">
-      <h2>Registrieren</h2>
-      <input type="email" id="register-email" placeholder="Email">
-      <input type="password" id="register-password" placeholder="Passwort">
-      <button onclick="register()">Registrieren</button>
-    
-      <h2>Anmelden</h2>
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Passwort">
-      <button onclick="login()">Anmelden</button>
     </div>    
     <div id="flashcard-page" class="page">
       <h2>Karteikarten</h2>
